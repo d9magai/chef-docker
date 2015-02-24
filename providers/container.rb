@@ -473,7 +473,7 @@ def service_create_systemd
       :service_name => service_name,
       :sockets => sockets
     )
-    not_if port.empty?
+    not_if {port.nil? || port.empty?}
     action :nothing
   end.run_action(:create)
 
@@ -624,7 +624,7 @@ def service_template
 end
 
 def sockets
-  return [] if port.empty?
+  return [] if port.nil? || port.empty?
   [*port].map { |p| p.gsub(/.*:/, '') }
 end
 
